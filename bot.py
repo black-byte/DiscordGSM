@@ -243,7 +243,7 @@ class DiscordGSM():
                 embed = discord.Embed(title=title, color=color)
 
             embed.add_field(name=FIELD_STATUS, value=f'{emoji} **{status}**', inline=True)
-            embed.add_field(name=f'{FIELD_ADDRESS}:{FIELD_PORT}', value=f'`{data["addr"]}:{data["port"]}`', inline=True)
+            #embed.add_field(name=f'{FIELD_ADDRESS}:{FIELD_PORT}', value=f'`{data["addr"]}:{data["port"]}`', inline=True)
  
             flag_emoji = ('country' in server) and (':flag_' + server['country'].lower() + f': {server["country"]}') or ':united_nations: Unknown'
             embed.add_field(name=FIELD_COUNTRY, value=flag_emoji, inline=True)
@@ -263,11 +263,11 @@ class DiscordGSM():
 
             embed.add_field(name=FIELD_PLAYERS, value=f'{value}/{data["maxplayers"]}', inline=True)
 
-            if 'image_url' in server:
+            image_url = ''
+            if data['game'] in MAP_CODES.keys():
+                image_url = 'https://raw.githubusercontent.com/black-byte/DiscordGSM/master/images/maps/bfbc2/' + data['map'].lower().replace('levels/','') + '.jpg'
+            elif 'image_url' in server:
                 image_url = str(server['image_url'])
-            else:
-                image_url = (CUSTOM_IMAGE_URL and CUSTOM_IMAGE_URL.strip()) and CUSTOM_IMAGE_URL or f'https://github.com/DiscordGSM/Map-Thumbnails/raw/master/{urllib.parse.quote(data["game"])}'
-                image_url += f'/{urllib.parse.quote(data["map"])}.jpg'
 
             embed.set_thumbnail(url=image_url)
         else:
