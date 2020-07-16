@@ -41,18 +41,20 @@ FIELD_GAME = os.getenv("FIELD_GAME", SETTINGS["fieldname"]["game"])
 FIELD_CURRENTMAP = os.getenv("FIELD_CURRENTMAP", SETTINGS["fieldname"]["currentmap"])
 FIELD_PLAYERS = os.getenv("FIELD_PLAYERS", SETTINGS["fieldname"]["players"])
 FIELD_COUNTRY = os.getenv("FIELD_COUNTRY", SETTINGS["fieldname"]["country"])
-BF2_MAP_CODES = {
-    "levels/mp_002": "Valparaiso",
-    "levels/mp_004": "Isla Inocentes",
-    "levels/mp_005gr": "Atacama Desert",
-    "levels/mp_006": "Arica Harbor",
-    "levels/mp_007gr": "White Pass",
-    "levels/mp_008": "Nelson Bay",
-    "levels/mp_009gr": "Laguna Presa",
-    "levels/mp_012gr": "Port Valdez",
-    "levels/mp_sp_002gr": "Cold War",
-    "levels/bc1_oasis_gr": "Oasis",
-    "levels/bc1_harvest_day_gr": "Harvest Day"
+MAP_CODES = {
+    "bfbc2": {
+        "levels/mp_002": "Valparaiso",
+        "levels/mp_004": "Isla Inocentes",
+        "levels/mp_005gr": "Atacama Desert",
+        "levels/mp_006": "Arica Harbor",
+        "levels/mp_007gr": "White Pass",
+        "levels/mp_008": "Nelson Bay",
+        "levels/mp_009gr": "Laguna Presa",
+        "levels/mp_012gr": "Port Valdez",
+        "levels/mp_sp_002gr": "Cold War",
+        "levels/bc1_oasis_gr": "Oasis",
+        "levels/bc1_harvest_day_gr": "Harvest Day"
+    }
 };
 
 class DiscordGSM():
@@ -248,7 +250,7 @@ class DiscordGSM():
 
             embed.add_field(name=FIELD_GAME, value=data['game'], inline=True)
 
-            embed.add_field(name=FIELD_CURRENTMAP, value=BF2_MAP_CODES[data['map'].lower()], inline=True)
+            embed.add_field(name=FIELD_CURRENTMAP, value=MAP_CODES[data['game']][data['map'].lower()], inline=True)
 
             if status == 'Online':
                 value = str(data['players']) # example: 20/32
@@ -271,7 +273,7 @@ class DiscordGSM():
             embed = discord.Embed(title='ERROR', description=f'{FIELD_STATUS}: :warning: **Fail to query**', color=color)
             embed.add_field(name=f'{FIELD_ADDRESS}:{FIELD_PORT}', value=f'{server["addr"]}:{server["port"]}', inline=True)
         
-        embed.set_footer(text=f'DiscordGSM v{VERSION} | Game Server Monitor | Last update: ' + datetime.now().strftime('%a, %Y-%m-%d %I:%M:%S%p'), icon_url='https://github.com/DiscordGSM/DiscordGSM/raw/master/images/discordgsm.png')
+        embed.set_footer(text=f'v{VERSION} | Last update: ' + datetime.now().strftime('%a, %Y-%m-%d %I:%M:%S%p'), icon_url='https://github.com/DiscordGSM/DiscordGSM/raw/master/images/discordgsm.png')
         
         return embed
 
