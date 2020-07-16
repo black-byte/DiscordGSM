@@ -250,7 +250,10 @@ class DiscordGSM():
 
             embed.add_field(name=FIELD_GAME, value=data['game'], inline=True)
 
-            embed.add_field(name=FIELD_CURRENTMAP, value=MAP_CODES[data['game']][data['map'].lower()], inline=True)
+            mapName = data['map'].lower()
+            if data['game'] in MAP_CODES.keys() and mapName in MAP_CODES[data['game']].keys():
+                mapName = MAP_CODES[data['game']][data['map'].lower()]
+            embed.add_field(name=FIELD_CURRENTMAP, value=mapName, inline=True)
 
             if status == 'Online':
                 value = str(data['players']) # example: 20/32
